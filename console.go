@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 	"runtime"
+    "io/ioutil"
 )
 
 type consoleBrush func(string) string
@@ -64,7 +65,7 @@ func (t *ConsoleTarget) Open(io.Writer) error {
 	case "stderr":
 		t.Writer = os.Stderr
 	case "discard":
-		t.Writer = os.Stderr
+		t.Writer = ioutil.Discard
 	}
 	if runtime.GOOS == "windows" {
 		t.ColorMode = false
