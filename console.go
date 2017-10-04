@@ -36,6 +36,7 @@ type ConsoleTarget struct {
 	*Filter
 	ColorMode bool      // whether to use colors to differentiate log levels
 	Writer    io.Writer // the writer to write log messages
+	WriterName string   // the writer name of writer (stdout, stderr, discard)
 	close     chan bool
 }
 
@@ -56,6 +57,14 @@ func (t *ConsoleTarget) Open(io.Writer) error {
 	t.Filter.Init()
 	if t.Writer == nil {
 		return errors.New("ConsoleTarget.Writer cannot be nil")
+	}
+	switch t.WriterName {
+	case "stdout":
+		t.Writer = os.Stdout
+	case "stderr":
+		t.Writer = os.Stderr
+	case "discard":
+		t.Writer = os.Stderr
 	}
 	if runtime.GOOS == "windows" {
 		t.ColorMode = false
