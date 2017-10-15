@@ -62,7 +62,7 @@ func (t *FileTarget) Open(errWriter io.Writer) error {
 		}
 	}
 
-	fd, err := os.OpenFile(t.FileName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0660)
+	fd, err := os.OpenFile(t.FileName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
 	if err != nil {
 		return fmt.Errorf("FileTarget was unable to create a log file: %v", err)
 	}
@@ -119,7 +119,7 @@ func (t *FileTarget) rotate(bytes int64) {
 			os.Rename(path, fmt.Sprintf("%v.%v", t.FileName, i+1))
 		}
 	}
-	t.fd, err = os.OpenFile(t.FileName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0660)
+	t.fd, err = os.OpenFile(t.FileName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
 	if err != nil {
 		t.fd = nil
 		fmt.Fprintf(t.errWriter, "FileTarget was unable to create a log file: %v", err)
