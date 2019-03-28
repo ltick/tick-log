@@ -43,7 +43,7 @@ func NewFileTarget() *FileTarget {
 		Rotate:      true,
 		BackupCount: 10,
 		MaxBytes:    1 << 20, // 1MB
-		close:       make(chan bool, 0),
+		close:       make(chan bool, 1),
 	}
 }
 

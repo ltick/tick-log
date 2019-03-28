@@ -8,9 +8,9 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"runtime"
-    "io/ioutil"
 )
 
 type consoleBrush func(string) string
@@ -35,10 +35,10 @@ var brushes = map[Level]consoleBrush{
 // ConsoleTarget writes filtered log messages to console window.
 type ConsoleTarget struct {
 	*Filter
-	ColorMode bool      // whether to use colors to differentiate log levels
-	Writer    io.Writer // the writer to write log messages
-	WriterName string   // the writer name of writer (stdout, stderr, discard)
-	close     chan bool
+	ColorMode  bool      // whether to use colors to differentiate log levels
+	Writer     io.Writer // the writer to write log messages
+	WriterName string    // the writer name of writer (stdout, stderr, discard)
+	close      chan bool
 }
 
 // NewConsoleTarget creates a ConsoleTarget.
@@ -49,7 +49,7 @@ func NewConsoleTarget() *ConsoleTarget {
 		Filter:    &Filter{MaxLevel: LevelDebug},
 		ColorMode: true,
 		Writer:    os.Stdout,
-		close:     make(chan bool, 0),
+		close:     make(chan bool, 1),
 	}
 }
 
